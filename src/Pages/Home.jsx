@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { NavLink } from "react-router-dom"; // ✅ FIX: Import NavLink
+import { NavLink } from "react-router-dom";
 import '../styles/Home.css';
+import SignupModal from "../Components/SignupModal.jsx";
+import LoginModal from "../Components/LoginModal.jsx";
 
 function Home() {
-    const [scrollY, setScrollY] = useState(0);
-
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     return (
         <div className="home-page-container">
@@ -30,6 +27,11 @@ function Home() {
                     <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "active" : ""}>Dashboard</NavLink></li>
                     <li><NavLink to="/urbangrow" className={({ isActive }) => isActive ? "active" : ""}>UrbanGrow</NavLink></li>
                 </ul>
+
+                <div className="auth-buttons-home">
+                    <button className="btn-login-home" onClick={() => setIsLoginModalOpen(true)}>Login</button>
+                    <button className="btn-signup-home" onClick={() => setIsModalOpen(true)}>Signup</button>
+                </div>
             </nav>
 
             {/* Main Hero Section */}
@@ -52,7 +54,11 @@ function Home() {
                         PlantPal simplifies plant care with smart monitoring, personalized tips, and a vibrant community. Grow happier, healthier plants effortlessly.
                     </motion.p>
                     <div className="hero-buttons-home">
-                        <button className="btn-primary-home">Explore Plant Library</button>
+                        <NavLink to="/Plantlib">
+                        <button className="btn-primary-home">
+                        Explore Plant Library
+                        </button>
+                        </NavLink>
                         <button className="btn-secondary-home">See Diagnostics</button>
                     </div>
                 </div>
@@ -108,6 +114,24 @@ function Home() {
                     <span>Legal</span>
                 </div>
             </footer>
+
+            {/* Modals */}
+            <LoginModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+                onSwitchToSignup={() => {
+                    setIsLoginModalOpen(false);
+                    setIsModalOpen(true);
+                }}
+            />
+            <SignupModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSwitchToLogin={() => {
+                    setIsModalOpen(false);
+                    setIsLoginModalOpen(true);
+                }}
+            />
         </div>
     );
 }
