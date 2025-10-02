@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import '../styles/Home.css';
+import '../Styles/Home.css';
 import SignupModal from "../Components/SignupModal.jsx";
 import LoginModal from "../Components/LoginModal.jsx";
 
