@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "../Styles/Features.css";
 import "../Styles/StartWatering.css";
+import DescriptionPopup from "../Components/DescriptionPopup";
 
 function StartWatering({ onBack }) {
   const [schedules, setSchedules] = useState([]);
@@ -14,6 +15,7 @@ function StartWatering({ onBack }) {
 
   const [editId, setEditId] = useState(null);
   const [showPlantDropdown, setShowPlantDropdown] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false); // state for popup
 
   const plantOptions = ["Rose", "Tulip", "Lily", "Orchid"]; // backend can populate
 
@@ -71,6 +73,11 @@ function StartWatering({ onBack }) {
     setShowPlantDropdown(false);
   };
 
+  const saveChanges = () => {
+    // later: send schedules to backend or dashboard
+    alert("Changes saved! Your schedules will appear on the dashboard.");
+  };
+
   const filteredPlants = plantOptions.filter((p) =>
     p.toLowerCase().includes(formData.plant.toLowerCase())
   );
@@ -79,7 +86,9 @@ function StartWatering({ onBack }) {
     <div className="feature-details">
       <div className="header-with-button">
         <h2>Watering Schedule Management</h2>
-        <button className="desc-btn">See description to setup sensor</button>
+        <button className="desc-btn" onClick={() => setPopupVisible(true)}>
+          See description to setup sensor
+        </button>
       </div>
 
       {/* Schedule Form */}
@@ -120,6 +129,7 @@ function StartWatering({ onBack }) {
         >
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
+          <option value="weekly">Once in 2-3 days</option>
         </select>
         <input
           type="number"
@@ -170,6 +180,15 @@ function StartWatering({ onBack }) {
         ))}
       </div>
 
+      {/* Save Changes Button */}
+      {schedules.length > 0 && (
+        <div className="save-changes-wrapper" style={{ textAlign: "right", marginTop: "1rem" }}>
+          <button className="save-btn" onClick={saveChanges}>
+            Save Changes
+          </button>
+        </div>
+      )}
+
       {/* Calendar UI */}
       <div className="calendar-view">
         <h2>Calendar View</h2>
@@ -177,6 +196,12 @@ function StartWatering({ onBack }) {
           <p>📅 Calendar will be implemented here.</p>
         </div>
       </div>
+
+      {/* Popup for sensor description */}
+      <DescriptionPopup
+        visible={popupVisible}
+        onClose={() => setPopupVisible(false)}
+      />
     </div>
   );
 }

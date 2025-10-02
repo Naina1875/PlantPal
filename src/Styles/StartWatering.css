@@ -200,3 +200,22 @@
   margin-right: 8px;
   font-size: 20px;
 }
+
+.save-changes-wrapper {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.save-btn {
+  background: #e6ef2a;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-btn:hover {
+  background: #a5b400;
+}
