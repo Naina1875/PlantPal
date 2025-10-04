@@ -168,7 +168,7 @@ function StartWatering() {
 
       <div className={styles.card}>
         <div className={styles.calendarView}>
-          <h2>Calendar View</h2>
+          <h2>Plan using calender</h2>
           <div className={styles.calendarPlaceholder}>
             <p>🗓️ Calendar will be implemented here.</p>
           </div>
