@@ -1,10 +1,9 @@
 // src/pages/StartWatering.jsx
 import React, { useState } from "react";
-import "../Styles/Features.css";
-import "../Styles/StartWatering.css";
 import DescriptionPopup from "../Components/DescriptionPopup";
+import styles from "../Styles/StartWatering.module.css";
 
-function StartWatering({ onBack }) {
+function StartWatering() {
   const [schedules, setSchedules] = useState([]);
   const [formData, setFormData] = useState({
     plant: "",
@@ -12,12 +11,10 @@ function StartWatering({ onBack }) {
     frequency: "daily",
     duration: 1,
   });
-
   const [editId, setEditId] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false);
   const [showPlantDropdown, setShowPlantDropdown] = useState(false);
-  const [popupVisible, setPopupVisible] = useState(false); // state for popup
-
-  const plantOptions = ["Rose", "Tulip", "Lily", "Orchid"]; // backend can populate
+  const plantOptions = ["Rose", "Tulip", "Lily", "Orchid"];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +26,6 @@ function StartWatering({ onBack }) {
       alert("Please fill all fields.");
       return;
     }
-
     if (editId) {
       setSchedules(
         schedules.map((sched) =>
@@ -40,7 +36,6 @@ function StartWatering({ onBack }) {
     } else {
       setSchedules([...schedules, { ...formData, id: Date.now(), enabled: true }]);
     }
-
     setFormData({ plant: "", startTime: "", frequency: "daily", duration: 1 });
     setShowPlantDropdown(false);
   };
@@ -74,7 +69,6 @@ function StartWatering({ onBack }) {
   };
 
   const saveChanges = () => {
-    // later: send schedules to backend or dashboard
     alert("Changes saved! Your schedules will appear on the dashboard.");
   };
 
@@ -83,94 +77,78 @@ function StartWatering({ onBack }) {
   );
 
   return (
-    <div className="feature-details">
-      <div className="header-with-button">
-        <h2>Watering Schedule Management</h2>
-        <button className="desc-btn" onClick={() => setPopupVisible(true)}>
-          See description to setup sensor
-        </button>
-      </div>
+    <div style={{ width: '100%' }}>
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <h2>Watering Schedule Management</h2>
+          <button className={styles.descriptionButton} onClick={() => setPopupVisible(true)}>
+            See description to setup sensor
+          </button>
+        </div>
 
-      {/* Schedule Form */}
-      <div className="schedule-form">
-        <div className="plant-dropdown-wrapper">
+        <div className={styles.formContainer}>
+          {/* Your plant dropdown input can go here if you want to add it back */}
           <input
             type="text"
             name="plant"
             placeholder="Plant Name"
             value={formData.plant}
-            onChange={(e) => {
-              handleInputChange(e);
-              setShowPlantDropdown(true);
-            }}
-            onClick={() => setShowPlantDropdown(true)}
+            onChange={handleInputChange}
           />
-          {showPlantDropdown && filteredPlants.length > 0 && (
-            <ul className="plant-dropdown">
-              {filteredPlants.map((plant) => (
-                <li key={plant} onClick={() => handlePlantClick(plant)}>
-                  {plant}
-                </li>
-              ))}
-            </ul>
-          )}
+          <input
+            type="time"
+            name="startTime"
+            value={formData.startTime}
+            onChange={handleInputChange}
+          />
+          <select
+            name="frequency"
+            value={formData.frequency}
+            onChange={handleInputChange}
+          >
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="Once in 2-3 days">Once in 2-3 days</option>
+          </select>
+          <input
+            type="number"
+            name="duration"
+            placeholder="Duration (minutes)"
+            min="1"
+            value={formData.duration}
+            onChange={handleInputChange}
+          />
+          <button onClick={addSchedule} className={styles.addScheduleButton}>
+            {editId ? "Update Schedule" : "Add Schedule"}
+          </button>
         </div>
-
-        <input
-          type="time"
-          name="startTime"
-          value={formData.startTime}
-          onChange={handleInputChange}
-        />
-        <select
-          name="frequency"
-          value={formData.frequency}
-          onChange={handleInputChange}
-        >
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="weekly">Once in 2-3 days</option>
-        </select>
-        <input
-          type="number"
-          name="duration"
-          placeholder="Duration (minutes)"
-          min="1"
-          value={formData.duration}
-          onChange={handleInputChange}
-        />
-        <button onClick={addSchedule}>
-          {editId ? "Update Schedule" : "Add Schedule"}
-        </button>
       </div>
 
-      {/* Schedule List */}
-      <div className="schedule-list">
+      <div className={styles.scheduleList}>
         {schedules.length === 0 && <p>No schedules yet.</p>}
         {schedules.map((sched) => (
-          <div className="schedule-card" key={sched.id}>
-            <div className="schedule-info">
+          <div className={styles.scheduleCard} key={sched.id}>
+            <div className={styles.scheduleInfo}>
               <h3>{sched.plant}</h3>
               <p>
-                Time: {sched.startTime} | Frequency: {sched.frequency} | Duration:{" "}
-                {sched.duration} mins
+                Time: {sched.startTime} | Frequency: {sched.frequency} | Duration: {sched.duration} mins
               </p>
             </div>
-            <div className="schedule-actions">
+            <div className={styles.scheduleActions}>
               <button
-                className={sched.enabled ? "enabled" : "disabled"}
+                className={sched.enabled ? styles.enabled : styles.disabled}
                 onClick={() => toggleSchedule(sched.id)}
               >
                 {sched.enabled ? "Disable" : "Enable"}
               </button>
               <button
-                className="edit-btn"
+                className={styles.editButton}
                 onClick={() => editSchedule(sched)}
               >
                 Edit
               </button>
               <button
-                className="delete-btn"
+                className={styles.deleteButton}
                 onClick={() => deleteSchedule(sched.id)}
               >
                 Delete
@@ -180,24 +158,23 @@ function StartWatering({ onBack }) {
         ))}
       </div>
 
-      {/* Save Changes Button */}
       {schedules.length > 0 && (
-        <div className="save-changes-wrapper" style={{ textAlign: "right", marginTop: "1rem" }}>
-          <button className="save-btn" onClick={saveChanges}>
+        <div className={styles.saveWrapper}>
+          <button className={styles.saveButton} onClick={saveChanges}>
             Save Changes
           </button>
         </div>
       )}
 
-      {/* Calendar UI */}
-      <div className="calendar-view">
-        <h2>Calendar View</h2>
-        <div className="calendar-placeholder">
-          <p>📅 Calendar will be implemented here.</p>
+      <div className={styles.card}>
+        <div className={styles.calendarView}>
+          <h2>Calendar View</h2>
+          <div className={styles.calendarPlaceholder}>
+            <p>🗓️ Calendar will be implemented here.</p>
+          </div>
         </div>
       </div>
 
-      {/* Popup for sensor description */}
       <DescriptionPopup
         visible={popupVisible}
         onClose={() => setPopupVisible(false)}

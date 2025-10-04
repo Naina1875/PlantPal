@@ -4,23 +4,9 @@ import { NavLink } from "react-router-dom";
 import '../Styles/Features.css'; 
 import '../Styles/Home.css'; // ✅ for navbar reuse
 import StartWatering from './StartWatering';
+import SoilHealth from './SoilHealth';
+import PestControl from './PestControl';
 
-// Placeholder components
-const SoilHealthComponent = () => (
-  <div className="feature-details">
-    <h2>Soil Health Dashboard</h2>
-    <p>Here are the real-time stats for your soil. Monitor moisture, pH, and nutrient levels to ensure optimal plant growth.</p>
-  </div>
-);
-
-const PestPatrolComponent = () => (
-  <div className="feature-details">
-    <h2>Pest Patrol Scanner</h2>
-    <p>Upload a photo of your plant's leaves below. Our AI will analyze it for signs of pests or diseases and provide a treatment plan.</p>
-    <input type="file" />
-    <button>Analyze Image</button>
-  </div>
-);
 
 function Features() {
   const [activeFeature, setActiveFeature] = useState(null);
@@ -30,9 +16,9 @@ function Features() {
       case 'water':
         return <StartWatering />;
       case 'soil':
-        return <SoilHealthComponent />;
+        return <SoilHealth/>;
       case 'pest':
-        return <PestPatrolComponent />;
+        return <PestControl />;
       default:
         return null;
     }
@@ -70,6 +56,7 @@ function Features() {
             <h1 className="features-title">Core Features</h1>
 
             <div className="core-features-grid">
+
               {/* Water System Card */}
               <div className="feature-card">
                 <h3>Water System</h3>
@@ -88,9 +75,9 @@ function Features() {
                 </button>
               </div>
 
-              {/* Pest Patrol Card */}
+              {/* Pest control Card */}
               <div className="feature-card">
-                <h3>Pest Patrol & Early Warning</h3>
+                <h3>Pest Control & Early Warning</h3>
                 <p>The Pest Patrol feature uses AI to identify pests from photos and provides a quick, step-by-step treatment plan.</p>
                 <button onClick={() => setActiveFeature('pest')}>
                   Scan & check &rarr;

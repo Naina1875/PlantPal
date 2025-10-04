@@ -77,7 +77,7 @@
   font-weight: 600;
   font-size: 1rem;
   align-self: flex-start;
-  transition: background-color 0.3s ease;
+
 }
 
 .feature-card button:hover {
@@ -136,19 +136,20 @@
   object-fit: cover;
 }
 
-/* Active Feature Section */
 .active-feature-content {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  max-width: 1200px !important;
+  margin: 0 auto;
+  display: flex;
+
 }
 
 .feature-details {
+  width: 100%;
   background-color: #ffffff;
-  padding: 2rem;
+  padding:0;
   border-radius: 15px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -163,11 +164,27 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
   .features-container {
     padding: 80px 1.5rem 2rem 1.5rem;
   }
   .core-features-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  color: #0d5d10; /* Dark green text */
+  font-size: 1.1rem; /* A bit larger */
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #45a049; /* Lighter green on hover */
 }

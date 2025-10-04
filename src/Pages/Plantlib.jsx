@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../Styles/Plantlib.css";
 
+
 // Plant Data
 const plantData = [
   { name: "Monstera Deliciosa", care: "Easy", type: "Foliage", description: "A popular houseplant with unique fenestrated leaves.", imageUrl: "/Monstera.jpeg" },

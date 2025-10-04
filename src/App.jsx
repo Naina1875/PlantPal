@@ -4,6 +4,8 @@ import Home from "./Pages/Home";
 import Plantlib from "./Pages/Plantlib"
 import Features from "./Pages/Features"
 import StartWatering from "./Pages/StartWatering";
+import SoilHealth from "./Pages/SoilHealth";
+import PestControl from "./Pages/PestControl";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/plantlib" element={<Plantlib />} />
         <Route path="/features" element={<Features />} />
         <Route path="/startwatering" element={<StartWatering />} />
+        <Route path="/soilhealth" element={<SoilHealth/>} />
+        <Route path="/pestcontrol" element={<PestControl/>} />
       </Routes>
     </Router>
   );
