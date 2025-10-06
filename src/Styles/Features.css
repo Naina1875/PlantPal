@@ -2,7 +2,7 @@
 
 /* General Container Styling */
 .features-container {
-  padding: 100px 4rem 4rem 4rem; /* Top padding for navbar */
+  padding: 15px 4rem 4rem 4rem; /* Top padding for navbar */
   background-color: #f9f9f9;
   min-height: 100vh;
 }
@@ -38,18 +38,16 @@
 
 /* Feature Card Styling */
 .feature-card {
-  background: linear-gradient(90deg, #89d957, #c9e265); /* ✅ Updated gradient */
+  background: linear-gradient(90deg, #b6f98c, #edffa3); /* ✅ Updated gradient */
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
@@ -111,7 +109,7 @@
   display: flex;
   gap: 2rem;
   align-items: center;
-  background: linear-gradient(145deg, #f0fff0, #d0fadf);
+  background: linear-gradient(145deg, #f0fff0, #a5ffd8);
   padding: 2.5rem;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);

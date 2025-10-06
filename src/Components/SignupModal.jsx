@@ -1,67 +1,107 @@
 import React, { useState } from 'react';
 import { FiUser, FiPhone, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 
-// --- ALL CSS STYLES ARE EMBEDDED HERE ---
 const styles = `
     .signup-modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); display: flex;
-        justify-content: center; align-items: center; z-index: 1000;
-        font-family: 'Segoe UI', sans-serif;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 1000; font-family: 'Segoe UI', sans-serif;
+        backdrop-filter: blur(6px);
     }
+
     .signup-modal-content {
-        background-color: #e4ffc2; padding: 2.5rem; border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); width: 100%;
-        max-width: 420px; position: relative;
-        background-image: url('/signup.jpeg');
-        background-size: cover; background-position: center;
+        background: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 100%; max-width: 420px;
+        position: relative;
+        overflow: hidden;
     }
+
+    .signup-modal-content::before {
+        content: "🌿";
+        position: absolute;
+        font-size: 7rem;
+        opacity: 0.08;
+        right: -20px;
+        bottom: -10px;
+        transform: rotate(-10deg);
+    }
+
+    .signup-modal-content * {
+        position: relative;
+        z-index: 1;
+    }
+
     .signup-modal-close-btn {
-        position: absolute; top: 10px; right: 15px; font-size: 1.8rem;
-        color: #888; cursor: pointer; border: none; background: none;
+        position: absolute; top: 10px; right: 15px;
+        font-size: 1.8rem; color: #666; cursor: pointer;
+        border: none; background: none; transition: color 0.2s ease;
     }
+    .signup-modal-close-btn:hover { color: #2e7d32; }
+
     .signup-modal-content h2 {
         text-align: center; margin-top: 0; margin-bottom: 2rem;
-        font-family: 'Georgia', serif; color: #333;
+        font-family: 'Georgia', serif; color: #0d5d10;
+        font-size: 1.6rem;
     }
+
     .signup-modal-input-group {
-        position: relative; margin-bottom: 1.5rem;
+        position: relative; margin-bottom: 1.4rem;
     }
     .signup-modal-input-icon {
         position: absolute; left: 15px; top: 50%;
-        transform: translateY(-50%); color: #888;
+        transform: translateY(-50%); color: #777;
+        font-size: 1.1rem;
+        z-index: 2;
     }
     .signup-modal-input-group input {
         width: 100%; padding: 12px 12px 12px 45px;
-        border: 1px solid #ddd; border-radius: 8px;
+        border: 1px solid #ccc; border-radius: 10px;
         box-sizing: border-box; font-size: 1rem;
+        background-color: #f9fdf9; transition: border-color 0.2s, background 0.3s;
     }
+    .signup-modal-input-group input:focus {
+        border-color: #4caf50; background-color: #ffffff;
+        outline: none; box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+    }
+
     .signup-modal-toggle-password {
         position: absolute; right: 15px; top: 50%;
-        transform: translateY(-50%); cursor: pointer; color: #888;
+        transform: translateY(-50%); cursor: pointer; color: #777;
+        font-size: 1.1rem; z-index: 2;
     }
+    .signup-modal-toggle-password:hover { color: #2e7d32; }
+
     .signup-modal-submit-btn {
-        width: 100%; padding: 12px; background-color: #2e7d32;
-        color: white; border: none; border-radius: 8px;
+        width: 100%; padding: 12px;
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        color: white; border: none; border-radius: 10px;
         font-size: 1.1rem; font-weight: bold; cursor: pointer;
-        transition: background-color 0.3s;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .signup-modal-submit-btn:hover { background-color: #1b5e20; }
+    .signup-modal-submit-btn:hover {
+        background: linear-gradient(135deg, #43a047, #1b5e20);
+        box-shadow: 0 4px 12px rgba(46,125,50,0.25);
+    }
+
     .signup-modal-login-link {
-        text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #555;
+        text-align: center; margin-top: 1.5rem;
+        font-size: 0.9rem; color: #555;
     }
     .signup-modal-login-link a {
         color: #2e7d32; font-weight: bold; text-decoration: none; cursor: pointer;
+        transition: color 0.2s ease;
     }
-    .signup-modal-login-link a:hover { text-decoration: underline; }
+    .signup-modal-login-link a:hover { text-decoration: underline; color: #1b5e20; }
 `;
 
-const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
+const SignupModal = ({ isOpen, onClose, onSwitchToLogin, onSignup }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-    if (!isOpen) {
-        return null;
-    }
+    if (!isOpen) return null;
 
     const togglePasswordVisibility = () => {
         setIsPasswordVisible(!isPasswordVisible);
@@ -69,7 +109,7 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        alert('Signup Successful!');
+        if (onSignup) onSignup(); // ✅ Trigger mock signup from App.jsx
         onClose();
     };
 

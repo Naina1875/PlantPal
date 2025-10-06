@@ -10,7 +10,7 @@ body {
   width: 100%;
   position: relative;
   overflow-x: hidden;
-  padding-top: 80px; /* offset navbar */
+  padding-top: 0px; /* offset navbar */
 }
 
 /* Navbar */
@@ -73,14 +73,14 @@ body {
 
 .header-lib {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .header-lib h1 {
   font-size: 2rem;
   font-weight: 800;
   color: #0d5d10;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 /* Search + Filters */

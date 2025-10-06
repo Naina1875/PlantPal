@@ -27,11 +27,6 @@ function Home() {
                     <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "active" : ""}>Dashboard</NavLink></li>
                     <li><NavLink to="/urbangrow" className={({ isActive }) => isActive ? "active" : ""}>UrbanGrow</NavLink></li>
                 </ul>
-
-                <div className="auth-buttons-home">
-                    <button className="btn-login-home" onClick={() => setIsLoginModalOpen(true)}>Login</button>
-                    <button className="btn-signup-home" onClick={() => setIsModalOpen(true)}>Signup</button>
-                </div>
             </nav>
 
             {/* Main Hero Section */}
@@ -55,11 +50,15 @@ function Home() {
                     </motion.p>
                     <div className="hero-buttons-home">
                         <NavLink to="/Plantlib">
-                        <button className="btn-primary-home">
-                        Explore Plant Library
-                        </button>
+                            <button className="btn-primary-home">
+                                Explore Plant Library
+                            </button>
                         </NavLink>
-                        <button className="btn-secondary-home">See Diagnostics</button>
+                        <NavLink to="/dashboard">
+                            <button className="btn-secondary-home">
+                                See Diagnostics
+                            </button>
+                        </NavLink>
                     </div>
                 </div>
             </div>

@@ -26,19 +26,23 @@
   z-index: 1;
 }
 
-/* Logo top-left */
-.logo {
+.logo-container {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 50;
-  cursor: pointer;
-
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;   /* circular */
-  overflow: hidden;     /* crop extra parts of the image */
+  top: 80px;        /* lowered slightly so full logo is visible */
+  left: 5px;       /* shifted inward a bit */
+  z-index: 200;     /* always on top */
+  transition: transform 0.3s ease-out;
 }
+
+.logo {
+  border-radius: 50%;
+  object-fit: cover;
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  will-change: transform, width, height;
+}
+
+
 
 /* Make the image fill the circular container neatly */
 .logo img {
@@ -70,12 +74,11 @@
 
 .subtext {
   font-size: 1.3rem;
-  margin-bottom: 10px;  /* close to headline */
+  margin-bottom: 10px; 
   line-height: 1.6;
   font-weight: 600;   
 }
 
-/* Get Started button */
 /* Get Started button */
 .get-started-btn {
   margin-top: 45px;
@@ -144,12 +147,14 @@
 }
 
 .feature-card {
-  background: #fff;
+  background: #f4f9f4; /* soft pastel green shade */
   padding: 30px 20px;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   font-size: 1rem;
+  color: #0d5d10;
+  text-align: center;
 }
 
 .feature-card h3 {
@@ -162,6 +167,13 @@
   margin-top: 10px;
   font-size: 1rem;
   color: #444;
+}
+
+/* Icon styling */
+.feature-card .icon {
+  font-size: 2.5rem; /* bigger icons */
+  display: block;
+  margin-bottom: 10px;
 }
 
 .feature-card:hover {
