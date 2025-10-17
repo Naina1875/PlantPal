@@ -1,27 +1,29 @@
 // src/pages/SoilHealth.jsx
-import React, { useState } from "react";
-import styles from '../Styles/SoilHealth.module.css'; // Import the CSS Module
+import React, { useState, useEffect } from "react";
+import styles from '../Styles/SoilHealth.module.css';
 import DescriptionPopup from '../Components/DescriptionPopup'; 
 
-// Mock data to simulate fetching from a sensor/backend
 const MOCK_SOIL_DATA = {
   Rose: { moisture: 65, ph: 6.8, nitrogen: 'Optimal', phosphorus: 'Slightly Low', potassium: 'Optimal' },
   Tulip: { moisture: 78, ph: 6.2, nitrogen: 'Optimal', phosphorus: 'Optimal', potassium: 'Optimal' },
-  Lily: { moisture: 45, ph: 5.9, nitrogen: 'Low', phosphorus: 'Optimal', potassium: 'Slightly Low' },
+  Pothos: { moisture: 45, ph: 5.9, nitrogen: 'Low', phosphorus: 'Optimal', potassium: 'Slightly Low' },
   Orchid: { moisture: 55, ph: 5.7, nitrogen: 'Optimal', phosphorus: 'Optimal', potassium: 'Optimal' },
+  "Spider Plant": { moisture: 90, ph: 6.5, nitrogen: 'Optimal', phosphorus: 'Optimal', potassium: 'Optimal' },
 };
 
 function SoilHealth() {
   const [selectedPlant, setSelectedPlant] = useState('');
   const [soilData, setSoilData] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
+  const [stableMessage, setStableMessage] = useState('');
 
-  const plantOptions = ["Rose", "Tulip", "Lily", "Orchid"];
+  const plantOptions = ["Rose", "Tulip", "Pothos", "Orchid", "Spider Plant"];
 
   const handlePlantSelect = (e) => {
     const plant = e.target.value;
     setSelectedPlant(plant);
-    setSoilData(plant ? MOCK_SOIL_DATA[plant] : null);
+    setSoilData(plant ? { ...MOCK_SOIL_DATA[plant] } : null);
+    setStableMessage('');
   };
 
   const getStatusClass = (status) => {
@@ -32,12 +34,41 @@ function SoilHealth() {
     return 'statusMedium';
   };
 
-  // ✅ Your original, detailed suggestions function is restored here
+  useEffect(() => {
+    if (!selectedPlant || !soilData) return;
+
+    const interval = setInterval(() => {
+      setSoilData((prevData) => {
+        if (!prevData) return prevData;
+
+        let newMoisture = prevData.moisture;
+
+        // 🌿 Pothos stops at 50%
+        if (selectedPlant === "Pothos" && prevData.moisture >= 50) {
+          setStableMessage("✅ Stable Moisture Reached (50%)");
+          return prevData;
+        }
+
+        // 🌿 Spider Plant stops at 95%
+        if (selectedPlant === "Spider Plant" && prevData.moisture >= 95) {
+          setStableMessage("✅ Stable Moisture Reached (95%)");
+          return prevData;
+        }
+
+        setStableMessage(""); // clear message if still increasing
+
+        newMoisture = prevData.moisture >= 100 ? 30 : prevData.moisture + 1;
+        return { ...prevData, moisture: newMoisture };
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [selectedPlant, soilData]);
+
   const getSuggestions = (data) => {
     if (!data) return [];
     const suggestions = [];
 
-    // 🌞 Sunlight suggestions
     if (data.moisture < 40) {
       suggestions.push("🌞 Reduce direct sunlight exposure to prevent evaporation.");
     } else if (data.moisture > 70) {
@@ -46,7 +77,6 @@ function SoilHealth() {
       suggestions.push("🌞 Maintain bright indirect sunlight for best growth.");
     }
 
-    // 🪴 Soil suggestions
     if (data.nitrogen.toLowerCase().includes("low")) {
       suggestions.push("🪴 Add a nitrogen-rich fertilizer (e.g., compost or blood meal).");
     }
@@ -62,7 +92,6 @@ function SoilHealth() {
       suggestions.push("🪴 Soil is alkaline — add sulfur or organic matter.");
     }
 
-    // 💧 Water suggestions
     if (data.moisture < 40) {
       suggestions.push("💧 Soil moisture is low — water deeply now and mulch to retain moisture.");
     } else if (data.moisture > 70) {
@@ -99,13 +128,14 @@ function SoilHealth() {
             <div className={styles.metricCard}>
               <h3>Moisture</h3>
               <div className={styles.progressBarContainer}>
-                <div className={styles.progressBar} style={{ width: `${soilData.moisture}%` }}>
+                <div className={styles.progressBar} style={{ width: `${soilData.moisture}%`, transition: "width 1s ease" }}>
                   {soilData.moisture}%
                 </div>
               </div>
               <p className={styles.statusText}>
                 {soilData.moisture > 70 ? 'Sufficient' : soilData.moisture > 40 ? 'Optimal' : 'Needs Water'}
               </p>
+              {stableMessage && <p style={{ color: "green", fontWeight: "bold" }}>{stableMessage}</p>}
             </div>
 
             <div className={styles.metricCard}>
